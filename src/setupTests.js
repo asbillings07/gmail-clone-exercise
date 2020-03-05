@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/extend-expect'
 import React from 'react'
 import { render } from '@testing-library/react'
-import { Provider } from '../store'
+import { Provider } from './Store'
 
 function customRender(ui, options) {
   function Wrapper(props) {

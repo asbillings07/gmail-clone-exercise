@@ -1,10 +1,10 @@
 import React, { createContext, useContext } from 'react'
-
+import emails from './emails.json'
 const Store = createContext()
 
 function Provider({ children }) {
   const value = {
-    name: 'Aaron Billings'
+    emails: emails.messages
   }
   return <Store.Provider value={value}>{children}</Store.Provider>
 }
