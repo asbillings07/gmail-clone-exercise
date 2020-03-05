@@ -1,21 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Nav, Navbar } from 'react-bootstrap'
 import styled from 'styled-components'
-import { Email } from '@styled-icons/evaicons-solid/Email'
+import menu from '../images/menu.png'
+import email from '../images/email.png'
+import { SideBar } from '@styled-icons/remix-line'
 export const TopBar = () => {
   return (
     <Navbar>
-      <Navbar.Brand href='#home'>Navbar</Navbar.Brand>
+      <button>
+        <img src={menu} alt='menu' />
+      </button>
+      <Navbar.Brand href='#home'>Gmail Clone</Navbar.Brand>
       <StyledNav>
-        <EmailIcon />
-        <Nav.Link href='#home'>Home</Nav.Link>
+        <SideBar />
+        <img src={email} alt='email' />
       </StyledNav>
     </Navbar>
   )
 }
-const EmailIcon = styled(Email)`
-  color: red;
-`
+
 const StyledNav = styled(Nav)`
   marginright: auto;
 `
