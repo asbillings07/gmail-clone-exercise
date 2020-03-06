@@ -1,28 +1,39 @@
 import React from 'react'
-import { Card, Button } from 'react-bootstrap'
-import styled from 'styled-components'
+import { Card, Button, CardHeader, CardContent, Container } from '@material-ui/core'
 import { useStore } from '../Store'
+import { makeStyles } from '@material-ui/core/styles'
+import { ArrowBack } from '@material-ui/icons'
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: 40,
+    [theme.breakpoints.up('md')]: {
+      width: `calc(100% - 240px)`,
+      marginRight: 0,
+      marginTop: 60
+    }
+  }
+}))
+
 export const Message = ({ match }) => {
+  const classes = useStyles()
   const { id } = match.params
   const store = useStore()
   const email = store.emails.map(email => email)[id]
   return (
-    <Container>
-      <Button href='/'>Emails</Button>
-      <MessageCard key={email.id}>
-        <Card.Title>Subject: {email.subject}</Card.Title>
-        <Card.Subtitle>from: {email.sender}</Card.Subtitle>
-        <Card.Body>{email.body}</Card.Body>
-      </MessageCard>
+    <Container className={classes.container}>
+      <Card key={email.id}>
+        <Button href='/'>
+          <ArrowBack />
+        </Button>
+        <CardHeader subheader={email.sender} title={email.subject} />
+        <CardContent
+          dangerouslySetInnerHTML={{
+            __html: email.body
+          }}
+        ></CardContent>
+      </Card>
     </Container>
   )
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`
-const MessageCard = styled(Card)`
-  justify-content: center;
-`

@@ -1,10 +1,13 @@
-import React, { createContext, useContext } from 'react'
-import emails from './emails.json'
+import React, { createContext, useContext, useState } from 'react'
+import emailJson from './emails.json'
 const Store = createContext()
 
 function Provider({ children }) {
+  const emails = emailJson.messages
+  const [email, setEmail] = useState(emails)
   const value = {
-    emails: emails.messages
+    email,
+    setEmail
   }
   return <Store.Provider value={value}>{children}</Store.Provider>
 }
