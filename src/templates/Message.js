@@ -8,6 +8,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     marginTop: 40,
+    maxWidth: 1800,
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - 240px)`,
       marginRight: 0,
@@ -20,7 +21,7 @@ export const Message = ({ match }) => {
   const classes = useStyles()
   const { id } = match.params
   const store = useStore()
-  const email = store.emails.map(email => email)[id]
+  const email = store.email.map(email => email)[id]
   return (
     <Container className={classes.container}>
       <Card key={email.id}>

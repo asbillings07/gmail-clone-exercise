@@ -15,7 +15,23 @@ const useStyles = makeStyles(theme => ({
 export function Lists({ subject, id, content }) {
   const classes = useStyles()
   const history = useHistory()
-  
+  const [checked, setChecked] = useState([0])
+
+  const handleToggle = value => () => {
+    const currentIndex = checked.indexOf(value)
+    const newChecked = [...checked]
+
+    if (currentIndex === -1) {
+      newChecked.push(value)
+    } else {
+      newChecked.splice(currentIndex, 1)
+    }
+
+    setChecked(newChecked)
+  }
+
+  return
+}
 
 Lists.propTypes = {
   content: PropTypes.string.isRequired,

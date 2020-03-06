@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Delete } from '@material-ui/icons'
+import { Tags } from '../components/Tags'
 import { Button, Checkbox, CardContent, List, ListItem, ListItemText, Divider, Grid, Table, TableBody, TableCell, TableHead, TableRow, Container, Paper, Typography } from '@material-ui/core'
 const useStyles = makeStyles(theme => ({
   formControl: { margin: theme.spacing(1), minWidth: 120 },
@@ -13,6 +14,7 @@ const useStyles = makeStyles(theme => ({
   checkbox: { margin: theme.spacing(1) },
   extendedIcon: { marginRight: theme.spacing(1) },
   tags: { margin: 5 },
+  subject: { fontWeight: 'bold' },
   tableRow: { width: '100%' },
   container: {
     display: 'flex',
@@ -27,7 +29,8 @@ const useStyles = makeStyles(theme => ({
   },
   tableQuery: {
     [theme.breakpoints.up('sm')]: {}
-  }
+  },
+  tableContent: { width: '100%', maxWidth: 1800, marginTop: 25 }
 }))
 
 export const EmailBar = ({ emails, setEmail }) => {
@@ -67,10 +70,10 @@ export const EmailBar = ({ emails, setEmail }) => {
 
   return (
     <Container className={classes.container}>
-      <Paper position='static'>
+      <Paper position='static' className={classes.tableContent}>
         <form autoComplete='off' noValidate>
           <Divider />
-          <CardContent>
+          <CardContent className={classes.tableContent}>
             <Grid container justify='flex-end' style={{ marginBottom: '10pt' }}>
               <Grid item>
                 <Button onClick={() => deleteEmail()}>
@@ -96,12 +99,12 @@ export const EmailBar = ({ emails, setEmail }) => {
                         <List>
                           <ListItem role={undefined} dense button onClick={() => history.push(`/message/${email.id}`)}>
                             <ListItemText primary={email.sender.substring(0, 9).replace('.', ' ')} secondary={formatDate(email.date)} />
-                            <ListItemText primary={email.subject} />
-                            {email.tags.map((tag, i) => (
-                              <Typography className={classes.tags} key={i} variant='subtitle1'>
-                                {tag}
+                            <Tags emails={email} />
+                            <ListItemText>
+                              <Typography className={classes.subject} variant='body1'>
+                                {email.subject}
                               </Typography>
-                            ))}
+                            </ListItemText>
                           </ListItem>
                         </List>
                       </TableCell>
