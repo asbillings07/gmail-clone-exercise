@@ -22,5 +22,5 @@ export const Tags = ({ emails }) => {
 }
 
 Tags.propTypes = {
-  emails: PropTypes.array.isRequired
+  emails: PropTypes.object.isRequired
 }
