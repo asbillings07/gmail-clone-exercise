@@ -54,7 +54,7 @@ export function SideBar({ container }) {
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' noWrap>
-            Email
+            Me-Mail
           </Typography>
         </Toolbar>
       </AppBar>
