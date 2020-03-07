@@ -2,11 +2,15 @@
 
 ## How to Run this project
 
-# run npm install then npm start
+### `npm install` to install node_modules
+
+### run `npm start` to start the project locally
 
 ## How to test this project
 
-# run npm test
+- this project has Jest and React testing library installed
+
+# run `npm test` to test this project
 
 ## Debrief
 
