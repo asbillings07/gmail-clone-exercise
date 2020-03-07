@@ -92,3 +92,7 @@ export function SideBar({ container }) {
     </div>
   )
 }
+
+SideBar.propTypes = {
+  container: PropTypes.string
+}

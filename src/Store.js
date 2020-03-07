@@ -6,7 +6,7 @@ function Provider({ children }) {
   const emails = emailJson.messages
   const [email, setEmail] = useState(emails)
   const value = {
-    email,
+    emails: email,
     setEmail
   }
   return <Store.Provider value={value}>{children}</Store.Provider>

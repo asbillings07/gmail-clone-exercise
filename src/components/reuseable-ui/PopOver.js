@@ -6,20 +6,8 @@ import Paper from '@material-ui/core/Paper'
 import Popper from '@material-ui/core/Popper'
 import MenuItem from '@material-ui/core/MenuItem'
 import MenuList from '@material-ui/core/MenuList'
-import { makeStyles } from '@material-ui/core/styles'
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex'
-  },
-  paper: {
-    marginRight: theme.spacing(2)
-  }
-}))
 
 export function PopOver({ isOpen, setIsOpen, addTags, anchorRef }) {
-  const classes = useStyles()
-
   const handleClose = () => {
     setIsOpen(false)
   }

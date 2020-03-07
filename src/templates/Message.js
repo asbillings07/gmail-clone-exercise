@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card, Button, CardHeader, CardContent, Container } from '@material-ui/core'
 import { useStore } from '../Store'
+import HTMLParser from 'html-react-parser'
 import { makeStyles } from '@material-ui/core/styles'
 import { ArrowBack } from '@material-ui/icons'
 const useStyles = makeStyles(theme => ({
@@ -20,8 +21,8 @@ const useStyles = makeStyles(theme => ({
 export const Message = ({ match }) => {
   const classes = useStyles()
   const { id } = match.params
-  const store = useStore()
-  const email = store.email.map(email => email)[id]
+  const { emails } = useStore()
+  const email = emails.map(email => email)[id]
   return (
     <Container className={classes.container}>
       <Card key={email.id}>
@@ -29,11 +30,7 @@ export const Message = ({ match }) => {
           <ArrowBack />
         </Button>
         <CardHeader subheader={email.sender} title={email.subject} />
-        <CardContent
-          dangerouslySetInnerHTML={{
-            __html: email.body
-          }}
-        ></CardContent>
+        <CardContent>{HTMLParser(email.body)}</CardContent>
       </Card>
     </Container>
   )
