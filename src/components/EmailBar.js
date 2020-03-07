@@ -1,18 +1,16 @@
 import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
+import HTMLParser from 'html-react-parser'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
+import { useWindowDimensions } from './Hooks/useWindowDimensions'
 import { Delete, Label } from '@material-ui/icons'
 import { Tags } from '../components/Tags'
 import { PopOver } from '../components/reuseable-ui/PopOver'
 import { Button, Checkbox, CardContent, List, ListItem, ListItemText, Divider, Grid, Table, TableBody, TableCell, TableHead, TableRow, Container, Paper, Typography } from '@material-ui/core'
 const useStyles = makeStyles(theme => ({
-  formControl: { margin: theme.spacing(1), minWidth: 120 },
-  selectEmpty: { marginTop: theme.spacing(3) },
-  spacer: { margin: theme.spacing(1) },
   root: { padding: theme.spacing(8) },
   checkbox: { margin: theme.spacing(1) },
-  extendedIcon: { marginRight: theme.spacing(1) },
   tags: { margin: 5 },
   subject: { fontWeight: 'bold' },
   tableRow: { width: '100%' },
@@ -22,17 +20,22 @@ const useStyles = makeStyles(theme => ({
       width: `calc(100% - 240px)`,
       marginRight: 0,
       marginTop: 40
-    }
+    },
+    maxWidth: 1800
   },
   list: {
-    width: '100%',
-    maxWidth: 360
+    display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: 360,
+      flexDirection: 'column'
+    },
+    width: '100%'
   },
   tableItem: {
     display: 'flex'
   },
   tableQuery: {
-    [theme.breakpoints.up('sm')]: {}
+    [theme.breakpoints.down('sm')]: {}
   },
   tableContent: { width: '100%', maxWidth: 1800, marginTop: 25 },
   listItem: {
@@ -44,6 +47,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export const EmailBar = ({ emails, setEmail }) => {
+  const { width } = useWindowDimensions()
   const anchorRef = useRef(null)
   const classes = useStyles()
   const history = useHistory()
@@ -55,6 +59,7 @@ export const EmailBar = ({ emails, setEmail }) => {
     if (checked.length > 0) {
       const newEmails = emails.filter(email => !checked.includes(email))
       setEmail(newEmails)
+      setChecked([])
     }
   }
 
@@ -62,9 +67,8 @@ export const EmailBar = ({ emails, setEmail }) => {
     if (checked.length > 0) {
       checked.forEach(email => {
         if (email.tags.indexOf(tag) === -1) {
-          console.log('does not have tag', email.id)
-          const index = email.id === 0 ? email.id : email.id - 1
-
+          const index = emails.indexOf(email)
+          console.log('INDEX', index)
           emails[index].tags.push(tag)
 
           setIsOpen(false)
@@ -97,6 +101,12 @@ export const EmailBar = ({ emails, setEmail }) => {
     const oldDate = new Date(date)
     const dateformatter = new Intl.DateTimeFormat('en-US', options)
     return dateformatter.format(oldDate)
+  }
+  const getBodySnippet = body => {
+    let emailBody
+    width > 400 ? (emailBody = `${body.substring(0, 80)}...`) : (emailBody = `${body.substring(0, 20)}...`)
+
+    return HTMLParser(emailBody)
   }
 
   return (
@@ -136,16 +146,19 @@ export const EmailBar = ({ emails, setEmail }) => {
                           </TableCell>
                           <TableCell>
                             <List className={classes.list}>
-                              <ListItem alignItems='flex-start' role={undefined} dense button onClick={() => history.push(`/message/${email.id}`)}>
+                              <ListItem role={undefined} dense button onClick={() => history.push(`/message/${email.id}`)}>
                                 <ListItemText primary={email.sender.substring(0, 9).replace('.', ' ')} secondary={formatDate(email.date)} />
                                 <Tags emails={email} />
                               </ListItem>
                               <ListItem>
-                                <ListItemText>
-                                  <Typography className={classes.subject} variant='body1'>
-                                    {email.subject}
-                                  </Typography>
-                                </ListItemText>
+                                <ListItemText
+                                  primary={
+                                    <Typography className={classes.subject} variant='body1'>
+                                      {email.subject}
+                                    </Typography>
+                                  }
+                                  secondary={<span>{getBodySnippet(email.body)}</span>}
+                                />
                               </ListItem>
                             </List>
                           </TableCell>
