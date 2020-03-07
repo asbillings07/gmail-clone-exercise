@@ -142,9 +142,10 @@ export const EmailList = () => {
                               </ListItem>
                               <ListItem>
                                 <ListItemText
+                                  disableTypography
                                   data-testid='emailSubject'
                                   primary={
-                                    <Typography className={classes.subject} variant='body1'>
+                                    <Typography className={classes.subject} variant='h6'>
                                       {email.subject}
                                     </Typography>
                                   }
