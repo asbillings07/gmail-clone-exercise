@@ -11,7 +11,6 @@ const useStyles = makeStyles(theme => ({
   selectEmpty: { marginTop: theme.spacing(3) },
   spacer: { margin: theme.spacing(1) },
   root: { padding: theme.spacing(8) },
-  list: { padding: 10 },
   checkbox: { margin: theme.spacing(1) },
   extendedIcon: { marginRight: theme.spacing(1) },
   tags: { margin: 5 },
@@ -25,13 +24,23 @@ const useStyles = makeStyles(theme => ({
       marginTop: 40
     }
   },
+  list: {
+    width: '100%',
+    maxWidth: 360
+  },
   tableItem: {
     display: 'flex'
   },
   tableQuery: {
     [theme.breakpoints.up('sm')]: {}
   },
-  tableContent: { width: '100%', maxWidth: 1800, marginTop: 25 }
+  tableContent: { width: '100%', maxWidth: 1800, marginTop: 25 },
+  listItem: {
+    [theme.breakpoints.up('sm')]: {
+      alignItems: 'flex-start'
+    }
+  },
+  listItemText: {}
 }))
 
 export const EmailBar = ({ emails, setEmail }) => {
@@ -65,8 +74,6 @@ export const EmailBar = ({ emails, setEmail }) => {
       })
     }
   }
-
-  const removeTags = emails => {}
 
   const handleCheckedEmails = value => {
     console.log('checked Before', checked)
@@ -128,10 +135,12 @@ export const EmailBar = ({ emails, setEmail }) => {
                             <Checkbox edge='start' checked={checked.indexOf(email) !== -1} tabIndex={-1} disableRipple />
                           </TableCell>
                           <TableCell>
-                            <List>
-                              <ListItem role={undefined} dense button onClick={() => history.push(`/message/${email.id}`)}>
+                            <List className={classes.list}>
+                              <ListItem alignItems='flex-start' role={undefined} dense button onClick={() => history.push(`/message/${email.id}`)}>
                                 <ListItemText primary={email.sender.substring(0, 9).replace('.', ' ')} secondary={formatDate(email.date)} />
                                 <Tags emails={email} />
+                              </ListItem>
+                              <ListItem>
                                 <ListItemText>
                                   <Typography className={classes.subject} variant='body1'>
                                     {email.subject}

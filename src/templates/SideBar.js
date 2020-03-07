@@ -30,6 +30,9 @@ const useStyles = makeStyles(theme => ({
     }
   },
   toolbar: theme.mixins.toolbar,
+  toolbarColor: {
+    backgroundColor: '#c03b2b'
+  },
   drawerPaper: {
     width: drawerWidth
   }
@@ -46,7 +49,7 @@ export function SideBar({ container }) {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position='fixed' className={classes.appBar}>
-        <Toolbar>
+        <Toolbar className={classes.toolbarColor}>
           <IconButton color='inherit' aria-label='open drawer' edge='start' onClick={handleDrawerToggle} className={classes.menuButton}>
             <MenuIcon />
           </IconButton>

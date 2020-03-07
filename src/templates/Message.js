@@ -7,12 +7,12 @@ const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    marginTop: 40,
+    marginTop: theme.spacing(10),
     maxWidth: 1800,
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - 240px)`,
       marginRight: 0,
-      marginTop: 60
+      marginTop: theme.spacing(20)
     }
   }
 }))
