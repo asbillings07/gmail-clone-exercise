@@ -192,7 +192,7 @@ export const EmailList = () => {
                             </TableCell>
                             <TableCell data-testid='emailCell' onClick={() => history.push(`/message/${email.id}`)}>
                               <List className={classes.list}>
-                                <ListItem role={undefined} dense button>
+                                <ListItem role={undefined} dense>
                                   <ListItemText data-testid='emailSender' primary={email.sender.substring(0, 9).replace('.', ' ')} secondary={formatDate(email.date)} />
                                   <Tags emails={email} />
                                 </ListItem>
