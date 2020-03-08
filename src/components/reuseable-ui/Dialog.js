@@ -5,9 +5,9 @@ import PropTypes from 'prop-types'
 export const CustomDialog = ({ isOpen, handleClose, title, subtitle, children }) => {
   return (
     <>
-      <Dialog maxWidth='sm' open={isOpen} onClose={handleClose} aria-labelledby='max-width-dialog-title'>
+      <Dialog data-testid='DialogBox' maxWidth='sm' open={isOpen} onClose={handleClose} aria-labelledby='max-width-dialog-title'>
         <DialogTitle id='max-width-dialog-title'>{title}</DialogTitle>
-        <DialogContent>
+        <DialogContent data-testid='DialogContent'>
           <DialogContentText>{subtitle}</DialogContentText>
           {children}
         </DialogContent>

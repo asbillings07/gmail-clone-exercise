@@ -12,26 +12,26 @@ export const SideBarList = ({ toolbar }) => {
       <div className={toolbar} />
       <Divider />
       <List>
-        <ListItem button onClick={() => history.push('/')}>
+        <ListItem data-testid='inboxButton' button onClick={() => history.push('/')}>
           <ListItemIcon>{<Mail />}</ListItemIcon>
           <ListItemText primary='Inbox' />
         </ListItem>
-        <ListItem button>
+        <ListItem button data-testid='sendButton'>
           <ListItemIcon>{<Send />}</ListItemIcon>
           <ListItemText primary='Send email' />
         </ListItem>
       </List>
       <Divider />
       <List>
-        <ListItem button>
+        <ListItem button data-testid='travelButton'>
           <ListItemIcon>{<FlightTakeoff />}</ListItemIcon>
           <ListItemText primary='travel' />
         </ListItem>
-        <ListItem button>
+        <ListItem button data-testid='workButton'>
           <ListItemIcon>{<Work />}</ListItemIcon>
           <ListItemText primary='work' />
         </ListItem>
-        <ListItem button>
+        <ListItem button data-testid='businessButton'>
           <ListItemIcon>{<Business />}</ListItemIcon>
           <ListItemText primary='business' />
         </ListItem>

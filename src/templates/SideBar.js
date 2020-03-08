@@ -53,7 +53,7 @@ export function SideBar({ container }) {
           <IconButton color='inherit' aria-label='open drawer' edge='start' onClick={handleDrawerToggle} className={classes.menuButton}>
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' noWrap>
+          <Typography data-testid='Header' variant='h6' noWrap>
             Me-Mail
           </Typography>
         </Toolbar>

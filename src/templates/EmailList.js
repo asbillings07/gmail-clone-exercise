@@ -145,25 +145,25 @@ export const EmailList = () => {
         <form autoComplete='off' noValidate>
           <Grid container justify='flex-end' alignItems='center' style={{ marginBottom: '10px', marginTop: '10px' }}>
             <Grid item style={{ marginTop: '15px' }}>
-              <Button onClick={() => deleteEmails()}>
+              <Button data-testid='deleteButton' onClick={() => deleteEmails()}>
                 <Delete />
               </Button>
             </Grid>
             <Grid item style={{ marginTop: '15px' }}>
-              <Button onClick={() => setIsOpen(true)} ref={anchorRef}>
+              <Button data-testid='tagButton' onClick={() => setIsOpen(true)} ref={anchorRef}>
                 <Label />
               </Button>
               <CustomDialog isOpen={isOpen} handleClose={handleDialogClose} title='Add New Tag'>
-                <Paper>
+                <Paper data-testid='dialogBox'>
                   <ClickAwayListener onClickAway={handleDialogClose}>
                     <MenuList autoFocusItem={isOpen} id='menu-list-grow'>
-                      <MenuItem value='work' onClick={e => addNewTag(e.target.textContent)}>
+                      <MenuItem value='work' data-testid='workItem' onClick={e => addNewTag(e.target.textContent)}>
                         work
                       </MenuItem>
-                      <MenuItem value='Travel' onClick={e => addNewTag(e.target.textContent)}>
+                      <MenuItem value='Travel' data-testid='travelItem' onClick={e => addNewTag(e.target.textContent)}>
                         travel
                       </MenuItem>
-                      <MenuItem value='business' onClick={e => addNewTag(e.target.textContent)}>
+                      <MenuItem value='business' data-testid='businessItem' onClick={e => addNewTag(e.target.textContent)}>
                         business
                       </MenuItem>
                     </MenuList>
@@ -182,18 +182,17 @@ export const EmailList = () => {
                           <TableRow
                             className={classes.tableRow}
                             hover
-                            onClick={() => handleCheckedEmails(email)}
                             key={email.id}
                             style={{
                               verticalAlign: 'top'
                             }}
                           >
-                            <TableCell>
-                              <Checkbox edge='start' checked={checked.indexOf(email) !== -1} tabIndex={-1} disableRipple />
+                            <TableCell data-testid='checkBoxFunction' onClick={() => handleCheckedEmails(email)}>
+                              <Checkbox data-testid='checkBox' edge='start' checked={checked.indexOf(email) !== -1} tabIndex={-1} disableRipple />
                             </TableCell>
-                            <TableCell>
+                            <TableCell data-testid='emailCell' onClick={() => history.push(`/message/${email.id}`)}>
                               <List className={classes.list}>
-                                <ListItem role={undefined} dense button onClick={() => history.push(`/message/${email.id}`)}>
+                                <ListItem role={undefined} dense button>
                                   <ListItemText data-testid='emailSender' primary={email.sender.substring(0, 9).replace('.', ' ')} secondary={formatDate(email.date)} />
                                   <Tags emails={email} />
                                 </ListItem>

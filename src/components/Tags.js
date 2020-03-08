@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 export const Tags = ({ emails }) => {
   const classes = useStyles()
   return emails.tags.map((tag, i) => (
-    <span className={classes.tag} key={i}>
+    <span data-testid='tags' className={classes.tag} key={i}>
       {tag}
     </span>
   ))

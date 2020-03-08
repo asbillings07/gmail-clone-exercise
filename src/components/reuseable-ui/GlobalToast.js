@@ -60,7 +60,7 @@ export const Toast = ({ className, message, onClose, variant, isOpen, ...other }
         className={clsx(classes[variant], className)}
         aria-describedby='client-snackbar'
         message={
-          <span id='client-snackbar' className={classes.message}>
+          <span id='client-snackbar' data-testid='toastMessage' className={classes.message}>
             <Icon className={clsx(classes.icon, classes.iconVariant)} />
             {message}
           </span>
