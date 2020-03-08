@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { List, ListItem, Divider, ListItemIcon, ListItemText } from '@material-ui/core'
-import { Mail, Send, Work, FlightTakeoff } from '@material-ui/icons'
+import { Mail, Send, Work, FlightTakeoff, Business } from '@material-ui/icons'
 
 export const SideBarList = ({ toolbar }) => {
   const history = useHistory()
@@ -25,11 +25,15 @@ export const SideBarList = ({ toolbar }) => {
       <List>
         <ListItem button>
           <ListItemIcon>{<FlightTakeoff />}</ListItemIcon>
-          <ListItemText primary='Travel' />
+          <ListItemText primary='travel' />
         </ListItem>
         <ListItem button>
           <ListItemIcon>{<Work />}</ListItemIcon>
-          <ListItemText primary='Work' />
+          <ListItemText primary='work' />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>{<Business />}</ListItemIcon>
+          <ListItemText primary='business' />
         </ListItem>
       </List>
     </div>

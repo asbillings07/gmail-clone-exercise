@@ -5,9 +5,16 @@ const Store = createContext()
 function Provider({ children }) {
   const emails = emailJson.messages
   const [email, setEmail] = useState(emails)
+  const [toast, setToast] = useState({
+    isOpen: false,
+    message: '',
+    variant: 'info'
+  })
   const value = {
     emails: email,
-    setEmail
+    setEmail,
+    toast,
+    setToast
   }
   return <Store.Provider value={value}>{children}</Store.Provider>
 }

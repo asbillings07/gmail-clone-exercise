@@ -2,12 +2,31 @@ import React, { useState, useRef } from 'react'
 import HTMLParser from 'html-react-parser'
 import { useHistory } from 'react-router-dom'
 import { useStore } from '../Store'
+import { CustomDialog } from '../components/reuseable-ui/Dialog'
 import { makeStyles } from '@material-ui/core/styles'
 import { useWindowDimensions } from '../components/Hooks/useWindowDimensions'
 import { Delete, Label } from '@material-ui/icons'
 import { Tags } from '../components/Tags'
-import { PopOver } from '../components/reuseable-ui/PopOver'
-import { Button, Checkbox, CardContent, List, ListItem, ListItemText, Divider, Grid, Table, TableBody, TableCell, TableRow, Container, Paper, Typography } from '@material-ui/core'
+import {
+  Button,
+  Checkbox,
+  CardContent,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Container,
+  Paper,
+  Typography,
+  MenuItem,
+  ClickAwayListener,
+  MenuList
+} from '@material-ui/core'
 const useStyles = makeStyles(theme => ({
   root: { padding: theme.spacing(8) },
   checkbox: { margin: theme.spacing(1) },
@@ -41,7 +60,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export const EmailList = () => {
-  const { emails, setEmail } = useStore()
+  const { emails, setEmail, setToast } = useStore()
   const { width } = useWindowDimensions()
   const anchorRef = useRef(null)
   const classes = useStyles()
@@ -50,11 +69,26 @@ export const EmailList = () => {
   const [checked, setChecked] = useState([])
   const [isOpen, setIsOpen] = useState(false)
 
+  const handleDialogClose = () => {
+    setIsOpen(false)
+  }
+
   const deleteEmails = () => {
     if (checked.length > 0) {
       const newEmails = emails.filter(email => !checked.includes(email))
       setEmail(newEmails)
+      setToast({
+        isOpen: true,
+        message: `${checked.length} email(s) have been deleted`,
+        variant: 'success'
+      })
       setChecked([])
+    } else {
+      setToast({
+        isOpen: true,
+        message: 'No emails selected to delete',
+        variant: 'info'
+      })
     }
   }
 
@@ -69,6 +103,12 @@ export const EmailList = () => {
           setEmail(emails)
           setChecked([])
         }
+      })
+    } else {
+      setToast({
+        isOpen: true,
+        message: 'No emails selected to add tags to',
+        variant: 'info'
       })
     }
   }
@@ -103,64 +143,82 @@ export const EmailList = () => {
     <Container className={classes.container}>
       <Paper position='static' className={classes.tableContent}>
         <form autoComplete='off' noValidate>
-          <Divider />
-          <CardContent className={classes.tableContent}>
-            <Grid container justify='flex-end' style={{ marginBottom: '10pt' }}>
-              <Grid item>
-                <Button onClick={() => deleteEmails()}>
-                  <Delete />
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button onClick={() => setIsOpen(true)} ref={anchorRef}>
-                  <Label />
-                </Button>
-                <PopOver isOpen={isOpen} setIsOpen={setIsOpen} addTags={addNewTag} anchorRef={anchorRef} />
-              </Grid>
-              <Table size='medium'>
-                <TableBody>
-                  {}
-                  {emails
-                    ? emails.map(email => (
-                        <TableRow
-                          className={classes.tableRow}
-                          hover
-                          onClick={() => handleCheckedEmails(email)}
-                          key={email.id}
-                          style={{
-                            verticalAlign: 'top'
-                          }}
-                        >
-                          <TableCell>
-                            <Checkbox edge='start' checked={checked.indexOf(email) !== -1} tabIndex={-1} disableRipple />
-                          </TableCell>
-                          <TableCell>
-                            <List className={classes.list}>
-                              <ListItem role={undefined} dense button onClick={() => history.push(`/message/${email.id}`)}>
-                                <ListItemText data-testid='emailSender' primary={email.sender.substring(0, 9).replace('.', ' ')} secondary={formatDate(email.date)} />
-                                <Tags emails={email} />
-                              </ListItem>
-                              <ListItem>
-                                <ListItemText
-                                  disableTypography
-                                  data-testid='emailSubject'
-                                  primary={
-                                    <Typography className={classes.subject} variant='h6'>
-                                      {email.subject}
-                                    </Typography>
-                                  }
-                                  secondary={<span data-testid='bodySnippet'>{getBodySnippet(email.body)}</span>}
-                                />
-                              </ListItem>
-                            </List>
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    : ''}
-                </TableBody>
-              </Table>
+          <Grid container justify='flex-end' alignItems='center' style={{ marginBottom: '10px', marginTop: '10px' }}>
+            <Grid item style={{ marginTop: '15px' }}>
+              <Button onClick={() => deleteEmails()}>
+                <Delete />
+              </Button>
             </Grid>
-          </CardContent>
+            <Grid item style={{ marginTop: '15px' }}>
+              <Button onClick={() => setIsOpen(true)} ref={anchorRef}>
+                <Label />
+              </Button>
+              <CustomDialog isOpen={isOpen} handleClose={handleDialogClose} title='Add New Tag'>
+                <Paper>
+                  <ClickAwayListener onClickAway={handleDialogClose}>
+                    <MenuList autoFocusItem={isOpen} id='menu-list-grow'>
+                      <MenuItem value='work' onClick={e => addNewTag(e.target.textContent)}>
+                        work
+                      </MenuItem>
+                      <MenuItem value='Travel' onClick={e => addNewTag(e.target.textContent)}>
+                        travel
+                      </MenuItem>
+                      <MenuItem value='business' onClick={e => addNewTag(e.target.textContent)}>
+                        business
+                      </MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </CustomDialog>
+            </Grid>
+            <CardContent className={classes.tableContent}>
+              <Divider orientation='horizontal' />
+              <Grid>
+                <Table size='medium'>
+                  <TableBody>
+                    {}
+                    {emails
+                      ? emails.map(email => (
+                          <TableRow
+                            className={classes.tableRow}
+                            hover
+                            onClick={() => handleCheckedEmails(email)}
+                            key={email.id}
+                            style={{
+                              verticalAlign: 'top'
+                            }}
+                          >
+                            <TableCell>
+                              <Checkbox edge='start' checked={checked.indexOf(email) !== -1} tabIndex={-1} disableRipple />
+                            </TableCell>
+                            <TableCell>
+                              <List className={classes.list}>
+                                <ListItem role={undefined} dense button onClick={() => history.push(`/message/${email.id}`)}>
+                                  <ListItemText data-testid='emailSender' primary={email.sender.substring(0, 9).replace('.', ' ')} secondary={formatDate(email.date)} />
+                                  <Tags emails={email} />
+                                </ListItem>
+                                <ListItem>
+                                  <ListItemText
+                                    disableTypography
+                                    data-testid='emailSubject'
+                                    primary={
+                                      <Typography className={classes.subject} variant='h6'>
+                                        {email.subject}
+                                      </Typography>
+                                    }
+                                    secondary={<span data-testid='bodySnippet'>{getBodySnippet(email.body)}</span>}
+                                  />
+                                </ListItem>
+                              </List>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      : ''}
+                  </TableBody>
+                </Table>
+              </Grid>
+            </CardContent>
+          </Grid>
         </form>
       </Paper>
     </Container>
