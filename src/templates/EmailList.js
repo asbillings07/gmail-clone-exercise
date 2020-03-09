@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   tableRow: { width: '100%' },
   container: {
     display: 'flex',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       width: `calc(100% - 240px)`,
       marginRight: 0,
       marginTop: 40
@@ -132,6 +132,7 @@ export const EmailList = () => {
     const dateformatter = new Intl.DateTimeFormat('en-US', options)
     return dateformatter.format(oldDate)
   }
+
   const getBodySnippet = body => {
     let emailBody
     width > 400 ? (emailBody = `${body.substring(0, 80)}...`) : (emailBody = `${body.substring(0, 20)}...`)

@@ -1,5 +1,12 @@
 # SalesLoft UI Exercise
 
+This project was created as a coding exercise for a job oppourtunity.
+
+## Live Link
+
+To view this project live you can go here:
+[gmail-clone](https://me-mail.netlify.com/)
+
 ## How to Run this project
 
 ### `npm install` to install node_modules
