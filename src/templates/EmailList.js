@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
       marginRight: 0
     },
     marginTop: 50,
-    maxWidth: 1800
+    maxWidth: '100%'
   },
   list: {
     display: 'flex',
@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   tableQuery: {
     [theme.breakpoints.down('sm')]: {}
   },
-  tableContent: { width: '100%', maxWidth: 1800, marginTop: 25 }
+  tableContent: { width: '100%', marginTop: 25 }
 }))
 
 export const EmailList = () => {
@@ -179,39 +179,39 @@ export const EmailList = () => {
                     {}
                     {emails
                       ? emails.map(email => (
-                        <TableRow
-                          className={classes.tableRow}
-                          hover
-                          key={email.id}
-                          style={{
-                            verticalAlign: 'top'
-                          }}
-                        >
-                          <TableCell data-testid='checkBoxFunction' onClick={() => handleCheckedEmails(email)}>
-                            <Checkbox data-testid='checkBox' edge='start' checked={checked.indexOf(email) !== -1} tabIndex={-1} disableRipple />
-                          </TableCell>
-                          <TableCell data-testid='emailCell' onClick={() => history.push(`/message/${email.id}`)}>
-                            <List className={classes.list}>
-                              <ListItem role={undefined} dense>
-                                <ListItemText data-testid='emailSender' primary={email.sender.substring(0, 9).replace('.', ' ')} secondary={formatDate(email.date)} />
-                                <Tags emails={email} />
-                              </ListItem>
-                              <ListItem>
-                                <ListItemText
-                                  disableTypography
-                                  data-testid='emailSubject'
-                                  primary={
-                                    <Typography className={classes.subject} variant='h6'>
-                                      {email.subject}
-                                    </Typography>
-                                  }
-                                  secondary={<span data-testid='bodySnippet'>{getBodySnippet(email.body)}</span>}
-                                />
-                              </ListItem>
-                            </List>
-                          </TableCell>
-                        </TableRow>
-                      ))
+                          <TableRow
+                            className={classes.tableRow}
+                            hover
+                            key={email.id}
+                            style={{
+                              verticalAlign: 'top'
+                            }}
+                          >
+                            <TableCell data-testid='checkBoxFunction' onClick={() => handleCheckedEmails(email)}>
+                              <Checkbox data-testid='checkBox' edge='start' checked={checked.indexOf(email) !== -1} tabIndex={-1} disableRipple />
+                            </TableCell>
+                            <TableCell data-testid='emailCell' onClick={() => history.push(`/message/${email.id}`)}>
+                              <List className={classes.list}>
+                                <ListItem role={undefined} dense>
+                                  <ListItemText data-testid='emailSender' primary={email.sender.substring(0, 9).replace('.', ' ')} secondary={formatDate(email.date)} />
+                                  <Tags emails={email} />
+                                </ListItem>
+                                <ListItem>
+                                  <ListItemText
+                                    disableTypography
+                                    data-testid='emailSubject'
+                                    primary={
+                                      <Typography className={classes.subject} variant='h6'>
+                                        {email.subject}
+                                      </Typography>
+                                    }
+                                    secondary={<span data-testid='bodySnippet'>{getBodySnippet(email.body)}</span>}
+                                  />
+                                </ListItem>
+                              </List>
+                            </TableCell>
+                          </TableRow>
+                        ))
                       : ''}
                   </TableBody>
                 </Table>
