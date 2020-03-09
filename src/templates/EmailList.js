@@ -5,28 +5,9 @@ import { useStore } from '../Store'
 import { CustomDialog } from '../components/reuseable-ui/Dialog'
 import { makeStyles } from '@material-ui/core/styles'
 import { useWindowDimensions } from '../components/Hooks/useWindowDimensions'
-import { Delete, Label } from '@material-ui/icons'
+import { Delete, Label, LabelOff } from '@material-ui/icons'
 import { Tags } from '../components/Tags'
-import {
-  Button,
-  Checkbox,
-  CardContent,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
-  Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  Container,
-  Paper,
-  Typography,
-  MenuItem,
-  ClickAwayListener,
-  MenuList
-} from '@material-ui/core'
+import { Button, Checkbox, CardContent, List, ListItem, ListItemText, Divider, Grid, Table, TableBody, TableCell, TableRow, Container, Paper, Typography } from '@material-ui/core'
 const useStyles = makeStyles(theme => ({
   root: { padding: theme.spacing(8) },
   checkbox: { margin: theme.spacing(1) },
@@ -37,9 +18,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - 240px)`,
-      marginRight: 0,
-      marginTop: 40
+      marginRight: 0
     },
+    marginTop: 50,
     maxWidth: 1800
   },
   list: {
@@ -67,10 +48,14 @@ export const EmailList = () => {
   const history = useHistory()
 
   const [checked, setChecked] = useState([])
-  const [isOpen, setIsOpen] = useState(false)
+  const [isAddTagOpen, setIsAddTagOpen] = useState(false)
+  const [isRemoveTagOpen, setIsRemoveTagOpen] = useState(false)
 
-  const handleDialogClose = () => {
-    setIsOpen(false)
+  const handleAddTagClose = () => {
+    setIsAddTagOpen(false)
+  }
+  const handleRemoveTagClose = () => {
+    setIsRemoveTagOpen(false)
   }
 
   const deleteEmails = () => {
@@ -99,7 +84,7 @@ export const EmailList = () => {
           const index = emails.indexOf(email)
           emails[index].tags.push(tag)
 
-          setIsOpen(false)
+          setIsAddTagOpen(false)
           setEmail(emails)
           setChecked([])
         }
@@ -108,6 +93,28 @@ export const EmailList = () => {
       setToast({
         isOpen: true,
         message: 'No emails selected to add tags to',
+        variant: 'info'
+      })
+    }
+  }
+
+  const removeTag = tag => {
+    if (checked.length > 0) {
+      checked.forEach(email => {
+        if (email.tags.indexOf(tag) !== -1) {
+          const emailIndex = emails.indexOf(email)
+          const tagIndex = emails[emailIndex].tags.indexOf(tag)
+          emails[emailIndex].tags.splice(tagIndex, 1)
+
+          setIsRemoveTagOpen(false)
+          setEmail(emails)
+          setChecked([])
+        }
+      })
+    } else {
+      setToast({
+        isOpen: true,
+        message: 'No emails selected to remove tags from',
         variant: 'info'
       })
     }
@@ -146,31 +153,23 @@ export const EmailList = () => {
         <form autoComplete='off' noValidate>
           <Grid container justify='flex-end' alignItems='center' style={{ marginBottom: '10px', marginTop: '10px' }}>
             <Grid item style={{ marginTop: '15px' }}>
+              <Button data-testid='tagButton' onClick={() => setIsAddTagOpen(true)} ref={anchorRef}>
+                <Label />
+              </Button>
+            </Grid>
+            <Grid item style={{ marginTop: '15px' }}>
               <Button data-testid='deleteButton' onClick={() => deleteEmails()}>
                 <Delete />
               </Button>
             </Grid>
             <Grid item style={{ marginTop: '15px' }}>
-              <Button data-testid='tagButton' onClick={() => setIsOpen(true)} ref={anchorRef}>
-                <Label />
+              <Button data-testid='tagButton' onClick={() => setIsRemoveTagOpen(true)} ref={anchorRef}>
+                <LabelOff />
               </Button>
-              <CustomDialog isOpen={isOpen} handleClose={handleDialogClose} title='Add New Tag'>
-                <Paper data-testid='dialogBox'>
-                  <ClickAwayListener onClickAway={handleDialogClose}>
-                    <MenuList autoFocusItem={isOpen} id='menu-list-grow'>
-                      <MenuItem value='work' data-testid='workItem' onClick={e => addNewTag(e.target.textContent)}>
-                        work
-                      </MenuItem>
-                      <MenuItem value='Travel' data-testid='travelItem' onClick={e => addNewTag(e.target.textContent)}>
-                        travel
-                      </MenuItem>
-                      <MenuItem value='business' data-testid='businessItem' onClick={e => addNewTag(e.target.textContent)}>
-                        business
-                      </MenuItem>
-                    </MenuList>
-                  </ClickAwayListener>
-                </Paper>
-              </CustomDialog>
+            </Grid>
+            <Grid item style={{ marginTop: '15px' }}>
+              <CustomDialog isOpen={isAddTagOpen} handleClose={handleAddTagClose} handleTag={addNewTag} title='Add New Tag' />
+              <CustomDialog isOpen={isRemoveTagOpen} handleClose={handleRemoveTagClose} handleTag={removeTag} title='Remove Tag' />
             </Grid>
             <CardContent className={classes.tableContent}>
               <Divider orientation='horizontal' />
