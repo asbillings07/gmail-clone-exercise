@@ -51,7 +51,7 @@ test('Adding Tags to emails works correctly', () => {
 })
 
 test('Deleting emails removes them correctly', async () => {
-  const { queryAllByTestId, getByTestId, debug } = customRender(<EmailList />)
+  const { queryAllByTestId, getByTestId } = customRender(<EmailList />)
   const delBtn = getByTestId('deleteButton')
   const checkBox = queryAllByTestId('checkBox')
   // click on first email check box then click on delete button
