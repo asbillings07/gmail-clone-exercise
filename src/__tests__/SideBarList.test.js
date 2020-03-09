@@ -1,6 +1,6 @@
 import React from 'react'
-import { customRender } from '../../setupTests'
-import { SideBarList } from '../SideBarList'
+import { customRender } from '../setupTests'
+import { SideBarList } from '../components/SideBarList'
 
 jest.mock('react-router-dom', () => ({
   useHistory: () => ({

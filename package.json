@@ -37,7 +37,25 @@
       "last 1 safari version"
     ]
   },
+  "standard": {
+    "globals": [
+      "test",
+      "expect",
+      "fetch",
+      "jest",
+      "beforeEach",
+      "afterEach"
+    ],
+    "parser": "babel-eslint",
+    "plugins": [
+      "react-hooks"
+    ],
+    "rules": {
+      "react-hooks/exhaustive-deps": "warn"
+    }
+  },
   "devDependencies": {
-    "jest-nyancat-reporter": "^2.0.0"
+    "jest-nyancat-reporter": "^2.0.0",
+    "standard": "^14.3.1"
   }
 }

@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export function SideBar({ container }) {
+export function SideBar ({ container }) {
   const classes = useStyles()
   const theme = useTheme()
   const [isOpen, setIsOpen] = React.useState(false)

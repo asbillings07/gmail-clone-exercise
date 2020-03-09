@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(10),
     maxWidth: 1800,
     [theme.breakpoints.up('md')]: {
-      width: `calc(100% - 240px)`,
+      width: 'calc(100% - 240px)',
       marginRight: 0,
       marginTop: theme.spacing(20)
     }

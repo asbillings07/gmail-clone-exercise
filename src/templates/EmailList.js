@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
     [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - 240px)`,
+      width: 'calc(100% - 240px)',
       marginRight: 0
     },
     marginTop: 50,
@@ -153,7 +153,7 @@ export const EmailList = () => {
         <form autoComplete='off' noValidate>
           <Grid container justify='flex-end' alignItems='center' style={{ marginBottom: '10px', marginTop: '10px' }}>
             <Grid item style={{ marginTop: '15px' }}>
-              <Button data-testid='tagButton' onClick={() => setIsAddTagOpen(true)} ref={anchorRef}>
+              <Button data-testid='addTagButton' onClick={() => setIsAddTagOpen(true)} ref={anchorRef}>
                 <Label />
               </Button>
             </Grid>
@@ -163,7 +163,7 @@ export const EmailList = () => {
               </Button>
             </Grid>
             <Grid item style={{ marginTop: '15px' }}>
-              <Button data-testid='tagButton' onClick={() => setIsRemoveTagOpen(true)} ref={anchorRef}>
+              <Button data-testid='removeTagButton' onClick={() => setIsRemoveTagOpen(true)} ref={anchorRef}>
                 <LabelOff />
               </Button>
             </Grid>
@@ -179,39 +179,39 @@ export const EmailList = () => {
                     {}
                     {emails
                       ? emails.map(email => (
-                          <TableRow
-                            className={classes.tableRow}
-                            hover
-                            key={email.id}
-                            style={{
-                              verticalAlign: 'top'
-                            }}
-                          >
-                            <TableCell data-testid='checkBoxFunction' onClick={() => handleCheckedEmails(email)}>
-                              <Checkbox data-testid='checkBox' edge='start' checked={checked.indexOf(email) !== -1} tabIndex={-1} disableRipple />
-                            </TableCell>
-                            <TableCell data-testid='emailCell' onClick={() => history.push(`/message/${email.id}`)}>
-                              <List className={classes.list}>
-                                <ListItem role={undefined} dense>
-                                  <ListItemText data-testid='emailSender' primary={email.sender.substring(0, 9).replace('.', ' ')} secondary={formatDate(email.date)} />
-                                  <Tags emails={email} />
-                                </ListItem>
-                                <ListItem>
-                                  <ListItemText
-                                    disableTypography
-                                    data-testid='emailSubject'
-                                    primary={
-                                      <Typography className={classes.subject} variant='h6'>
-                                        {email.subject}
-                                      </Typography>
-                                    }
-                                    secondary={<span data-testid='bodySnippet'>{getBodySnippet(email.body)}</span>}
-                                  />
-                                </ListItem>
-                              </List>
-                            </TableCell>
-                          </TableRow>
-                        ))
+                        <TableRow
+                          className={classes.tableRow}
+                          hover
+                          key={email.id}
+                          style={{
+                            verticalAlign: 'top'
+                          }}
+                        >
+                          <TableCell data-testid='checkBoxFunction' onClick={() => handleCheckedEmails(email)}>
+                            <Checkbox data-testid='checkBox' edge='start' checked={checked.indexOf(email) !== -1} tabIndex={-1} disableRipple />
+                          </TableCell>
+                          <TableCell data-testid='emailCell' onClick={() => history.push(`/message/${email.id}`)}>
+                            <List className={classes.list}>
+                              <ListItem role={undefined} dense>
+                                <ListItemText data-testid='emailSender' primary={email.sender.substring(0, 9).replace('.', ' ')} secondary={formatDate(email.date)} />
+                                <Tags emails={email} />
+                              </ListItem>
+                              <ListItem>
+                                <ListItemText
+                                  disableTypography
+                                  data-testid='emailSubject'
+                                  primary={
+                                    <Typography className={classes.subject} variant='h6'>
+                                      {email.subject}
+                                    </Typography>
+                                  }
+                                  secondary={<span data-testid='bodySnippet'>{getBodySnippet(email.body)}</span>}
+                                />
+                              </ListItem>
+                            </List>
+                          </TableCell>
+                        </TableRow>
+                      ))
                       : ''}
                   </TableBody>
                 </Table>

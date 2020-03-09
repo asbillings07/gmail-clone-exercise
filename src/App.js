@@ -5,7 +5,7 @@ import { useStore } from './Store'
 import { EmailList } from './templates/EmailList'
 import { Message } from './templates/Message'
 import { Toast } from './components/reuseable-ui/GlobalToast'
-function App() {
+function App () {
   const { toast, setToast } = useStore()
   const closeToast = () => {
     setToast({
