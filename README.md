@@ -1,6 +1,6 @@
-# SalesLoft UI Exercise
+# UI Exercise
 
-This project was created as a coding exercise for a job oppourtunity.
+This project was created as a coding exercise.
 
 ## Live Link
 
